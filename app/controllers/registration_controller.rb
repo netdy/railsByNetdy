@@ -6,9 +6,12 @@ class RegistrationController < ApplicationController
     puts "--------------------------------------------------------------"
     @user_info = UserInfo.new(user_info_params)
     if @user_info.save
+      flash[:success] = "ลงทะเบียนสำเร็จ!"
+      redirect_to action: :index
       puts "--------------------------------------------------------------"
       puts "User info saved"
     else
+      flash.now[:error] = "เกิดข้อผิดพลาดในการลงทะเบียน: #{@user_info.errors.full_messages.join(', ')}"
       puts "--------------------------------------------------------------"
       puts "User info not saved"
     end
