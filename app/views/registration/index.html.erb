@@ -1,44 +1,44 @@
 <h1>Registration Form</h1>
 
-<%= form_with(model: @user_info, url: registration_path , method: :post, local: true) do |form| %>
+<%= form_with(model: @user_info, url: registration_path, method: :post, local: true) do |form| %>
   <div>
     <%= form.label :FirstName, "First Name" %>
-    <%= form.text_field :FirstName %>
+    <%= form.text_field :FirstName, name: 'user_info[FirstName]' %>
   </div>
 
   <div>
     <%= form.label :LastName, "Last Name" %>
-    <%= form.text_field :LastName %>
+    <%= form.text_field :LastName, name: 'user_info[LastName]' %>
   </div>
 
    <div>
     <%= form.label :DateOfBirth %>
-    <%= form.date_field :DateOfBirth %>
+    <%= form.date_field :DateOfBirth, name: 'user_info[DateOfBirth]' %>
   </div>
 
   <div>
     <%= form.label :Gender, "Gender" %>
     <div>
-        <%= form.radio_button :Gender, 'ชาย' %>
+        <%= form.radio_button :Gender, 'ชาย', name: 'user_info[Gender]' %>
         <%= form.label :Genderชาย, 'ชาย' %>
-        <%= form.radio_button :Gender, 'หญิง' %>
+        <%= form.radio_button :Gender, 'หญิง', name: 'user_info[Gender]' %>
         <%= form.label :Genderหญิง, 'หญิง' %>
     </div>  
   </div>
 
   <div>
     <%= form.label :Email %>
-    <%= form.email_field :Email %>
+    <%= form.email_field :Email, name: 'user_info[Email]' %>
   </div>
 
   <div>
     <%= form.label :PhoneNumber, "Phone Number" %>
-    <%= form.telephone_field :PhoneNumber %>
+    <%= form.telephone_field :PhoneNumber, name: 'user_info[PhoneNumber]' %>
   </div>
 
   <div>
     <%= form.label :Subject, "Subject" %>
-    <%= form.select :Subject, options_for_select(['Front-end', 'Back-end', 'Database']) %>
+    <%= form.select :Subject, options_for_select(['Front-end', 'Back-end', 'Database']), {}, { name: 'user_info[Subject]' } %>
   </div>
 
   <div>
