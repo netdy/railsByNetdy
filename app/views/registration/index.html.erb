@@ -1,2 +1,42 @@
-<h1>Registration#index</h1>
-<p>Find me in app/views/registration/index.html.erb</p>
+<h1>Registration Form</h1>
+
+<%= form_with(model: @user_info, local: true) do |form| %>
+  <div>
+    <%= form.label :FirstName, "First Name" %>
+    <%= form.text_field :FirstName %>
+  </div>
+
+  <div>
+    <%= form.label :LastName, "Last Name" %>
+    <%= form.text_field :LastName %>
+  </div>
+
+   <div>
+    <%= form.label :DateOfBirth %>
+    <%= form.text_field :DateOfBirth %>
+  </div>
+
+  <div>
+    <%= form.label :Gender, "Gender" %>
+    <%= form.text_field :Gender %>
+  </div>
+
+  <div>
+    <%= form.label :Email %>
+    <%= form.text_field :Email %>
+  </div>
+
+  <div>
+    <%= form.label :PhoneNumber, "Phone Number" %>
+    <%= form.text_field :PhoneNumber %>
+  </div>
+
+  <div>
+    <%= form.label :Subject, "Subject" %>
+    <%= form.text_field :Subject%>
+  </div>
+
+  <div>
+    <%= form.submit "Submit" %>
+  </div>
+<% end %>
