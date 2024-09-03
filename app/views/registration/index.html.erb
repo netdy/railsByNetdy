@@ -13,27 +13,32 @@
 
    <div>
     <%= form.label :DateOfBirth %>
-    <%= form.text_field :DateOfBirth %>
+    <%= form.date_field :DateOfBirth %>
   </div>
 
   <div>
     <%= form.label :Gender, "Gender" %>
-    <%= form.text_field :Gender %>
+    <div>
+        <%= form.radio_button :Gender, 'ชาย' %>
+        <%= form.label :Genderชาย, 'ชาย' %>
+        <%= form.radio_button :Gender, 'หญิง' %>
+        <%= form.label :Genderหญิง, 'หญิง' %>
+    </div>  
   </div>
 
   <div>
     <%= form.label :Email %>
-    <%= form.text_field :Email %>
+    <%= form.email_field :Email %>
   </div>
 
   <div>
     <%= form.label :PhoneNumber, "Phone Number" %>
-    <%= form.text_field :PhoneNumber %>
+    <%= form.telephone_field :PhoneNumber %>
   </div>
 
   <div>
     <%= form.label :Subject, "Subject" %>
-    <%= form.text_field :Subject%>
+    <%= form.select :Subject, options_for_select(['Front-end', 'Back-end', 'Database']) %>
   </div>
 
   <div>
