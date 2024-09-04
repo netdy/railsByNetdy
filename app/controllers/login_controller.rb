@@ -12,9 +12,11 @@ class LoginController < ApplicationController
     if @user
       puts "--------------------------------------------------------------"
       puts "User found"
+      redirect_to action: :index
     else
       puts "--------------------------------------------------------------"
       puts "User not found"
+      render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: [ "User not found" ] })
     end
   end
 end
