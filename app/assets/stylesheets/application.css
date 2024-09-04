@@ -111,6 +111,7 @@ input[type="submit"]:hover {
 }
 
 .alert-danger {
-    align-self: center;
+    display: grid;
+    justify-content: center;
     color: #721c24;
 }

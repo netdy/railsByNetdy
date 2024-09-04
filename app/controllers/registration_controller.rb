@@ -15,6 +15,7 @@ class RegistrationController < ApplicationController
       flash.now[:error] = "registration failed"
       puts "--------------------------------------------------------------"
       puts "User info not saved"
+      render turbo_stream: turbo_stream.update("error-messages", partial: "registration/form_errors", locals: { errors: @user_info.errors.full_messages })
     end
   end
 
