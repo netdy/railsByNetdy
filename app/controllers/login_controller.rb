@@ -14,7 +14,7 @@ class LoginController < ApplicationController
       puts "Session set: #{session[:user_email]}"
       puts "--------------------------------------------------------------"
       puts "User found"
-      redirect_to action: :index
+      redirect_to controller: :page, action: :index
     else
       puts "--------------------------------------------------------------"
       puts "User not found"
