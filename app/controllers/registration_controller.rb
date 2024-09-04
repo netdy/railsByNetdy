@@ -1,5 +1,6 @@
 class RegistrationController < ApplicationController
   def index
+    @user_info = UserInfo.new
   end
 
   def create
