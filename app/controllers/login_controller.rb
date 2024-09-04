@@ -11,7 +11,7 @@ class LoginController < ApplicationController
     @user = UserInfo.find_by(Email: email, PhoneNumber: phone_number)
     if @user
       session[:user_email] = @user.Email
-      puts "Session set: #{session[:user_email]}" 
+      puts "Session set: #{session[:user_email]}"
       puts "--------------------------------------------------------------"
       puts "User found"
       redirect_to action: :index
