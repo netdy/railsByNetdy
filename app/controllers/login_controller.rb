@@ -18,6 +18,8 @@ class LoginController < ApplicationController
       redirect_to controller: :page, action: :index
     else
       if @user_first
+        session[:user_email] = @user_first.Email
+        puts "Session set: #{session[:user_email]}"
         puts "--------------------------------------------------------------"
         puts "User found"
         redirect_to controller: :setpassword, action: :index
