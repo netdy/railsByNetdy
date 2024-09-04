@@ -1,15 +1,103 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #b52a3a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.form-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+    transition: all 0.3 ease;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    flex: 1;
+}
+
+.form-group {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.gender {
+    justify-content: flex-start;
+}
+
+.form-group.full-width {
+    flex-basis: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;  
+}
+
+.radio-group input[type="radio"] {
+    margin: 0;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.radio-group label {
+    display: inline;
+    margin-left: 0.25rem;    
+}
+
+input[type="submit"] {
+    background-color: #b52a3a;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+input[type="submit"]:hover {
+    background-color: #9e2331;
+}
+

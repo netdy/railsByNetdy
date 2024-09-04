@@ -1,60 +1,57 @@
-<h1>Registration Form</h1>
+<body>
+    <div class="form-container">
+        <h1>Register Form</h1>
+        
+        <%= form_with(model: @user_info, url: registration_path, method: :post, local: true) do |form| %>
+        <div class="form-group">
+            <%= form.label :FirstName, "First Name" %>
+            <%= form.text_field :FirstName, name: 'user_info[FirstName]', required: true, maxlength: 30 %>
+        </div>
 
-<% if flash[:success] %>
-  <div class="alert alert-success"><%= flash[:success] %></div>
-<% end %>
+        <div class="form-group">
+            <%= form.label :LastName, "Last Name" %>
+            <%= form.text_field :LastName, name: 'user_info[LastName]', required: true, maxlength: 30 %>
+        </div>
 
-<% if flash[:error] %>
-  <div class="alert alert-danger"><%= flash[:error] %></div>
-<% end %>
+        <div class="form-group">
+            <%= form.label :DateOfBirth, "Birthday" %>
+            <%= form.date_field :DateOfBirth, name: 'user_info[DateOfBirth]', required: true, 
+                                max: Date.today, min: Date.today - 100.years %>
+        </div>
 
-<%= form_with(model: @user_info, url: registration_path, method: :post, local: true) do |form| %>
-  <div>
-    <%= form.label :FirstName, "First Name" %>
-    <%= form.text_field :FirstName, name: 'user_info[FirstName]', required: true, maxlength: 30 %>
-  </div>
+        <div class="form-group gender">
+            <%= form.label :Gender, "Gender" %>
+            <div class="radio-group">
+                <%= form.radio_button :Gender, 'Male', name: 'user_info[Gender]', required: true %>
+                <%= form.label :GenderMale, 'Male' %>
+                <%= form.radio_button :Gender, 'Female', name: 'user_info[Gender]', required: true %>
+                <%= form.label :GenderFemale, 'Female'%>
+            </div>  
+        </div>
 
-  <div>
-    <%= form.label :LastName, "Last Name" %>
-    <%= form.text_field :LastName, name: 'user_info[LastName]', required: true, maxlength: 30 %>
-  </div>
+        <div class="form-group">
+            <%= form.label :Email %>
+            <%= form.email_field :Email, name: 'user_info[Email]', required: true %>
+        </div>
 
-   <div>
-    <%= form.label :DateOfBirth %>
-    <%= form.date_field :DateOfBirth, name: 'user_info[DateOfBirth]', required: true, 
-                        max: Date.today, min: Date.today - 100.years %>
-  </div>
+        <div class="form-group">
+            <%= form.label :PhoneNumber, "Phone Number" %>
+            <%= form.telephone_field :PhoneNumber, name: 'user_info[PhoneNumber]', required: true, 
+                                     pattern: '0\d{9}', title: 'Phone number must be 10 digits and start with 0' %>
+        </div>
 
-  <div>
-    <%= form.label :Gender, "Gender" %>
-    <div>
-        <%= form.radio_button :Gender, 'Male', name: 'user_info[Gender]', required: true %>
-        <%= form.label :GenderMale, 'Male' %>
-        <%= form.radio_button :Gender, 'Female', name: 'user_info[Gender]', required: true %>
-        <%= form.label :GenderFemale, 'Female' %>
-    </div>  
-  </div>
+        <div class="form-group full-width">
+            <%= form.label :Subject, "Subject" %>
+            <%= form.select :Subject, 
+                            ['Front-end', 'Back-end', 'Database'],
+                            { prompt: 'Choose option' },
+                            { name: 'user_info[Subject]', required: true } %>
+        </div>
 
-  <div>
-    <%= form.label :Email %>
-    <%= form.email_field :Email, name: 'user_info[Email]', required: true %>
-  </div>
+        <div class="form-group full-width">
+            <%= form.submit "Submit" %>
+        </div>
+    <% end %>
+    </div>
+</body>
 
-  <div>
-    <%= form.label :PhoneNumber, "Phone Number" %>
-    <%= form.telephone_field :PhoneNumber, name: 'user_info[PhoneNumber]', required: true, 
-                             pattern: '0\d{9}', title: 'Phone number must be 10 digits and start with 0' %>
-  </div>
-
-   <div>
-    <%= form.label :Subject, "Subject" %>
-    <%= form.select :Subject, 
-                    ['Front-end', 'Back-end', 'Database'],
-                    { prompt: 'Choose option' },
-                    { name: 'user_info[Subject]', required: true } %>
-  </div>
-
-  <div>
-    <%= form.submit "Submit" %>
-  </div>
-<% end %>
