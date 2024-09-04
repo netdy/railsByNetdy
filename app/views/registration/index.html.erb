@@ -52,6 +52,8 @@
         <div class="form-group full-width">
             <%= form.submit "Submit" %>
         </div>
+        <p style="color:#545454">If you have an account, <a href="/login" style="color : red; "> login here. </a></p>
+
     <% end %>
     <% if flash[:success] %>
         <div class="alert alert-success"><%= flash[:success] %></div>
