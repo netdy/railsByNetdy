@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "login", to: "login#index"
   root "registration#index"
   get "registration", to: "registration#index"
   post "registration", to: "registration#create"
