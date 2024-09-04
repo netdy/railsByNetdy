@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "setpassword", to: "setpassword#index"
   get "page", to: "page#index"
   get "login", to: "login#index"
   post "login", to: "login#create"
