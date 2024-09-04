@@ -8,17 +8,24 @@ class LoginController < ApplicationController
     puts "--------------------------------------------------------------"
     puts "Email: #{email}"
     puts "Phone Number: #{phone_number}"
-    @user = UserInfo.find_by(Email: email, PhoneNumber: phone_number)
+    @user = UserInfo.find_by(Email: email, password: phone_number)
+    @user_first = UserInfo.find_by(Email: email, PhoneNumber: phone_number)
     if @user
-      session[:user_email] = @user.Email
+      session[:user_email] = @user_first.Email
       puts "Session set: #{session[:user_email]}"
       puts "--------------------------------------------------------------"
       puts "User found"
       redirect_to controller: :page, action: :index
     else
-      puts "--------------------------------------------------------------"
-      puts "User not found"
-      render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: [ "User not found" ] })
+      if @user_first
+        puts "--------------------------------------------------------------"
+        puts "User found"
+        redirect_to controller: :setpassword, action: :index
+      else
+        puts "--------------------------------------------------------------"
+        puts "User not found"
+        render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: [ "User not found" ] })
+      end
     end
   end
 end
