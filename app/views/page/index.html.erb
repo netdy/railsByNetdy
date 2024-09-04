@@ -1,2 +1,27 @@
-<h1>Page#index</h1>
-<p>Find me in app/views/page/index.html.erb</p>
+<body>
+    <div class="container-page">
+<h1 class="page-title">UseInfo Table</h1>
+<table class="user-info-table">
+  <thead>
+    <tr>
+      <th class="table-header">First Name</th>
+      <th class="table-header">Last Name</th>
+      <th class="table-header">Gender</th>
+      <th class="table-header">Birthday</th>
+      <th class="table-header">Subject</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user.each do |user_info| %>
+      <tr class="table-row">
+        <td class="table-data"><%= user_info.FirstName %></td>
+        <td class="table-data"><%= user_info.LastName %></td>
+        <td class="table-data"><%= user_info.Gender %></td> 
+        <td class="table-data"><%= user_info.DateOfBirth %></td>
+        <td class="table-data"><%= user_info.Subject %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+    </div>
+</body>

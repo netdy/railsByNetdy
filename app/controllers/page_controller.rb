@@ -2,6 +2,7 @@ class PageController < ApplicationController
   before_action :authenticate_user
 
   def index
+    @user = UserInfo.all
   end
 
   def authenticate_user
