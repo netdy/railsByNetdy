@@ -30,6 +30,6 @@ class RegistrationControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get registration_url
     assert_response :success
-    assert_select 'form'
+    assert_select "form"
   end
 end
