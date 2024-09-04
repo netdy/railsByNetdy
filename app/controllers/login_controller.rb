@@ -8,5 +8,13 @@ class LoginController < ApplicationController
     puts "--------------------------------------------------------------"
     puts "Email: #{email}"
     puts "Phone Number: #{phone_number}"
+    @user = UserInfo.find_by(Email: email, PhoneNumber: phone_number)
+    if @user
+      puts "--------------------------------------------------------------"
+      puts "User found"
+    else
+      puts "--------------------------------------------------------------"
+      puts "User not found"
+    end
   end
 end
