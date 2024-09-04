@@ -30,9 +30,9 @@ class LoginController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     reset_session
-    redirect_to root_path, notice: 'Logged out successfully!'
+    redirect_to root_path, notice: "Logged out successfully!"
   end
 end

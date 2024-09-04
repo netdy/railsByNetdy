@@ -4,7 +4,7 @@ class PageController < ApplicationController
   def index
     @user = UserInfo.all
     @current_date = params[:date] ? Date.parse(params[:date]) : Date.today
-    @users = UserInfo.where.not(password: [nil, '']).to_a
+    @users = UserInfo.where.not(password: [ nil, "" ]).to_a
     @birthdays = {}
     @users.each do |user|
       if user.DateOfBirth.present?
@@ -17,7 +17,7 @@ class PageController < ApplicationController
 
   def update_calendar
     @current_date = Date.parse(params[:date])
-    @users = UserInfo.where.not(password: [nil, '']).to_a
+    @users = UserInfo.where.not(password: [ nil, "" ]).to_a
     @birthdays = {}
     @users.each do |user|
       if user.DateOfBirth.present?

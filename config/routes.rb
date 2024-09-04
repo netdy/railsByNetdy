@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   root "login#index"
   get "registration", to: "registration#index"
   post "registration", to: "registration#create"
-  delete "login", to: 'login#destroy'
-  get 'page/update_calendar'
+  delete "login", to: "login#destroy"
+  get "page/update_calendar"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
