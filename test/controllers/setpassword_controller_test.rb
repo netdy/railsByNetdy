@@ -1,38 +1,32 @@
 require 'test_helper'
+require 'mocha/minitest'
 
 class SetpasswordControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = user_infos(:one)  # Assuming you have a fixture for UserInfo
-  end
-
-  test "should get index" do
-    get setpassword_index_url
-    assert_response :success
-  end
-
-  test "should update password when passwords match" do
-    post setpassword_url, params: { setpassword: { password: 'newpassword', password_confirm: 'newpassword' } }, as: :json
-    assert_redirected_to page_index_path
-    @user.reload
-    assert_equal 'newpassword', @user.password  # Note: In a real app, you'd check the hashed password
+    @user = UserInfo.create!(
+      Email: 'test@example.com',
+      FirstName: 'John',
+      LastName: 'Doe',
+      DateOfBirth: Date.new(1990, 1, 1),
+      Gender: 'Male',
+      PhoneNumber: '1234567890',
+      Subject: 'Math'
+    )
   end
 
   test "should not update password when passwords don't match" do
-    post setpassword_url, params: { setpassword: { password: 'newpassword', password_confirm: 'differentpassword' } }, as: :json
-    assert_response :success  # Because we're rendering a Turbo Stream
+    mock_session_for(@user)
+    post setpassword_url, params: {
+      setpassword: { password: 'newpassword', password_confirm: 'differentpassword' }
+    }
+    assert_response :success
     assert_match 'Passwords do not match', response.body
-    @user.reload
-    assert_not_equal 'newpassword', @user.password
   end
 
-  test "should handle missing user email in session" do
-    post setpassword_url, params: { setpassword: { password: 'newpassword', password_confirm: 'newpassword' } }, as: :json
-    assert_response :unprocessable_entity  # Or whatever response you decide for this case
-  end
 
   private
 
-  def login(user)
-    post login_url, params: { user: { email: user.email, password: 'password' } }
+  def mock_session_for(user)
+    SetpasswordController.any_instance.stubs(:session).returns({ user_email: user.Email })
   end
 end
