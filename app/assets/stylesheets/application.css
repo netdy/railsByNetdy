@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #b52a3a;
+    background: linear-gradient(to bottom, #872430, #ea354a);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,3 +101,16 @@ input[type="submit"]:hover {
     background-color: #9e2331;
 }
 
+.alert {
+    padding: 0.75rem;
+}
+
+.alert-success {
+    align-self: center;
+    color: #155724;
+}
+
+.alert-danger {
+    align-self: center;
+    color: #721c24;
+}
