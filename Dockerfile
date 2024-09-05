@@ -8,11 +8,11 @@ FROM ruby:$RUBY_VERSION-alpine AS base
 WORKDIR /rails
 
 # Install base packages
-RUN apk add --no-cache \
+RUN apk update && apk add --no-cache \
     build-base \
     curl \
-    libjemalloc \
-    libvips \
+    jemalloc-dev \
+    vips-dev \
     sqlite-dev \
     bash
 
@@ -26,9 +26,7 @@ ENV RAILS_ENV="production" \
 FROM base AS build
 
 RUN apk add --no-cache \
-    build-base \
     git \
-    libvips-dev \
     pkgconfig
 
 # Install application gems
