@@ -4,7 +4,7 @@
             <h1>🎂 Odds Birthday Calendar 🎂</h1>
         <%= render 'calendar' %>
          </div>   
-<h1 class="page-title">UseInfo Table</h1>
+<h1 class="page-title">UserInfo Table</h1>
 <div class="table-container">
 <table class="user-info-table">
   <thead>
@@ -13,7 +13,6 @@
       <th class="table-header">Last Name</th>
       <th class="table-header">Gender</th>
       <th class="table-header">Birthday</th>
-      <th class="table-header">Subject</th>
     </tr>
   </thead>
   <tbody>
@@ -23,13 +22,12 @@
         <td class="table-data"><%= user_info.LastName %></td>
         <td class="table-data"><%= user_info.Gender %></td> 
         <td class="table-data"><%= user_info.DateOfBirth %></td>
-        <td class="table-data"><%= user_info.Subject %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 </div>
-<%= button_to 'Logout', login_path, method: :delete, class: 'logout-button' %>
+<%= button_to 'Logout', login_path, method: :delete, style:"",class: 'logout-button' %>
 
 </div>
 </body>
