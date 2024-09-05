@@ -32,10 +32,12 @@ RUN apk add --no-cache --virtual .build-deps \
     vips-dev \
     && rm -rf /var/cache/apk/*
 
-# Install gems and clean up cache immediately
+# Install gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install --jobs 4 --retry 3 && \
-    rm -rf /usr/local/bundle/cache ~/.bundle && \
+RUN bundle install --jobs 4 --retry 3
+
+# Remove unnecessary files only after successful bundle install
+RUN rm -rf /usr/local/bundle/cache ~/.bundle && \
     find /usr/local/bundle/gems/ -name "*.c" -delete && \
     find /usr/local/bundle/gems/ -name "*.o" -delete
 
