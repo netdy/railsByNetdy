@@ -4,66 +4,60 @@
 ARG RUBY_VERSION=3.3.1
 FROM ruby:$RUBY_VERSION-alpine AS base
 
+# Install essential runtime packages for Ruby and Rails app
+RUN apk add --no-cache \
+    vips \
+    tzdata \
+    bash \
+    gcompat
 
-# Rails app lives here
+# Set working directory
 WORKDIR /rails
 
-# Set production environment
+# Set production environment variables
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
-
+    BUNDLE_WITHOUT="development" \
+    SECRET_KEY_BASE_DUMMY=1
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
 # Install packages needed to build gems and precompile assets
-RUN apk add --no-cache \
+RUN apk add --no-cache --virtual .build-deps \
     build-base \
     git \
     nodejs \
     vips-dev \
-    tzdata \
-    gcompat
+    && rm -rf /var/cache/apk/*
 
-# Install application gems
+# Install gems and clean up cache immediately
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+RUN bundle install --jobs 4 --retry 3 && \
+    rm -rf /usr/local/bundle/cache ~/.bundle && \
+    find /usr/local/bundle/gems/ -name "*.c" -delete && \
+    find /usr/local/bundle/gems/ -name "*.o" -delete
 
 # Copy application code
 COPY . .
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# Precompile bootsnap and assets
+RUN bundle exec bootsnap precompile --gemfile && \
+    bundle exec rails assets:precompile
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-
-# Final stage for app image
+# Final stage
 FROM base
 
-# Install packages needed for deployment
-RUN apk add --no-cache \
-    vips \
-    tzdata \
-    gcompat \
-    bash
-# Copy built artifacts: gems, application
+# Copy built gems and application code from the build stage
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
-# Run and own only the runtime files as a non-root user for security
+# Set ownership and permissions
 RUN adduser -h /rails -s /bin/sh -D rails && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
-# Entrypoint prepares the database.
-# ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Start the server by default, this can be overwritten at runtime
+# Expose the port and start the server
 EXPOSE 3000
-# CMD ["./bin/rails", "server"]
 CMD ["./bin/rails", "db:prepare", "&&", "./bin/rails", "server", "-b", "0.0.0.0"]
