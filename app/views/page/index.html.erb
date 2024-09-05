@@ -1,5 +1,9 @@
 <body>
     <div class="container-page">
+        <div class="canlendar-header">
+            <h1>🎂 Odds Birthday Calendar 🎂</h1>
+        <%= render 'calendar' %>
+         </div>   
 <h1 class="page-title">UseInfo Table</h1>
 <div class="table-container">
 <table class="user-info-table">
@@ -28,6 +32,4 @@
 <%= button_to 'Logout', login_path, method: :delete, class: 'logout-button' %>
 
 </div>
-<%= render 'calendar' %>
-
 </body>

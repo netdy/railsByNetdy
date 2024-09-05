@@ -164,7 +164,7 @@ table {
         font-size: 0.9rem;
     }
 
-    .table-header, .table-data {
+    .th, .td {
         padding: 0.5rem;
     }
 }

@@ -1,3 +1,7 @@
+.canlendar-header{
+    overflow-x: auto;
+}
+
 #calendar {
     font-family: Arial, sans-serif;
     width: 100%;
