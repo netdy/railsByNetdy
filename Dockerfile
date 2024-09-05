@@ -7,14 +7,16 @@ FROM ruby:$RUBY_VERSION-alpine AS base
 # Rails app lives here
 WORKDIR /rails
 
-# Install base packages
+# Install base packages and Node.js, Yarn
 RUN apk update && apk add --no-cache \
     build-base \
     curl \
     jemalloc-dev \
     vips-dev \
     sqlite-dev \
-    bash
+    bash \
+    nodejs \
+    yarn
 
 # Set production environment
 ENV RAILS_ENV="production" \
@@ -38,11 +40,14 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+# Install JS dependencies
+RUN yarn install --check-files
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 # Final stage for app image
 FROM base
