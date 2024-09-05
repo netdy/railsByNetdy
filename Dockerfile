@@ -42,4 +42,4 @@ RUN rm -rf /usr/local/bundle/cache/*.gem \
 EXPOSE 3000
 
 # คำสั่งที่จะรันเมื่อ container เริ่มทำงาน
-CMD ["./bin/rails", "db:prepare", "&&", "./bin/rails", "server", "-b", "0.0.0.0"]
+CMD ["./bin/rails", "db:prepare", "&&", "./bin/rails", "server", "-b", "0.0.0.0","bash"]
