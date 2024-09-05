@@ -9,7 +9,6 @@ RUN apk add --no-cache \
     yarn \
     tzdata \
     git \
-    # เพิ่ม dependencies อื่นๆ ที่จำเป็นสำหรับโปรเจคของคุณ
     && rm -rf /var/cache/apk/*
 
 # ตั้งค่า working directory
@@ -25,17 +24,19 @@ RUN bundle config set --local without 'development test' \
 # คัดลอกโค้ดของแอปพลิเคชัน
 COPY . .
 
+# ตั้งค่า environment variables
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
+# เพิ่มบรรทัดนี้ แทนที่ YOUR_GENERATED_SECRET ด้วย key ที่คุณได้จาก `rails secret`
+ENV SECRET_KEY_BASE=YOUR_GENERATED_SECRET
+
 # Precompile assets
-RUN RAILS_ENV=production bundle exec rails assets:precompile
+RUN bundle exec rails assets:precompile
 
 # เคลียร์ cache และลบไฟล์ที่ไม่จำเป็น
 RUN rm -rf /usr/local/bundle/cache/*.gem \
     && find /usr/local/bundle/gems/ -name "*.c" -delete \
     && find /usr/local/bundle/gems/ -name "*.o" -delete
-
-# ตั้งค่า environment variables
-ENV RAILS_ENV=production
-ENV RAILS_SERVE_STATIC_FILES=true
 
 # เปิด port 3000
 EXPOSE 3000
