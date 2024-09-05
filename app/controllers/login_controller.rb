@@ -23,9 +23,9 @@ class LoginController < ApplicationController
         # puts "--------------------------------------------------------------"
         # puts "User found"
         redirect_to controller: :setpassword, action: :index
-      # else
-      #   puts "--------------------------------------------------------------"
-      #   puts "User not found"
+        # else
+        #   puts "--------------------------------------------------------------"
+        #   puts "User not found"
         render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: [ "invalid user or password" ] })
       end
     end

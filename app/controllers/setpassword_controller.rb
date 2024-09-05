@@ -13,7 +13,7 @@ class SetpasswordController < ApplicationController
     if password != password_confirmation
       # puts "--------------------------------------------------------------"
       # puts "Passwords do not match"
-      # render turbo_stream: turbo_stream.update("error-messages", partial: "setpassword/form_errors", locals: { errors: [ "Passwords do not match" ] })
+      render turbo_stream: turbo_stream.update("error-messages", partial: "setpassword/form_errors", locals: { errors: [ "Passwords do not match" ] })
     else
       @user = UserInfo.find_by(Email: email)
       @user.update(password: password)
