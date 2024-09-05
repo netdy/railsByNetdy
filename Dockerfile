@@ -36,10 +36,11 @@ RUN apk add --no-cache --virtual .build-deps \
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs 4 --retry 3
 
-# Remove unnecessary files only after successful bundle install
-RUN rm -rf /usr/local/bundle/cache ~/.bundle && \
-    find /usr/local/bundle/gems/ -name "*.c" -delete && \
-    find /usr/local/bundle/gems/ -name "*.o" -delete
+# Clean up build artifacts
+RUN [ -d /usr/local/bundle/cache ] && rm -rf /usr/local/bundle/cache || true && \
+    [ -d ~/.bundle ] && rm -rf ~/.bundle || true && \
+    [ -d /usr/local/bundle/gems/ ] && find /usr/local/bundle/gems/ -name "*.c" -delete || true && \
+    [ -d /usr/local/bundle/gems/ ] && find /usr/local/bundle/gems/ -name "*.o" -delete || true
 
 # Copy application code
 COPY . .
