@@ -9,6 +9,7 @@ RUN apk add --no-cache \
     yarn \
     tzdata \
     git \
+    bash\
     && rm -rf /var/cache/apk/*
 
 # ตั้งค่า working directory
