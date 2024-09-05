@@ -1,46 +1,69 @@
-# ใช้ Ruby Alpine image เป็นฐาน
-FROM ruby:3.2-alpine
+# syntax = docker/dockerfile:1
 
-# ติดตั้ง dependencies ที่จำเป็น
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+ARG RUBY_VERSION=3.3.1
+FROM ruby:$RUBY_VERSION-alpine AS base
+
+
+# Rails app lives here
+WORKDIR /rails
+
+# Set production environment
+ENV RAILS_ENV="production" \
+    BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development"
+
+
+# Throw-away build stage to reduce size of final image
+FROM base as build
+
+# Install packages needed to build gems and precompile assets
 RUN apk add --no-cache \
     build-base \
-    postgresql-dev \
-    nodejs \
-    yarn \
-    tzdata \
     git \
-    bash\
-    && rm -rf /var/cache/apk/*
+    nodejs \
+    vips-dev \
+    tzdata \
+    gcompat
 
-# ตั้งค่า working directory
-WORKDIR /app
-
-# คัดลอก Gemfile และ Gemfile.lock
+# Install application gems
 COPY Gemfile Gemfile.lock ./
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
+    bundle exec bootsnap precompile --gemfile
 
-# ติดตั้ง gems
-RUN bundle config set --local without 'development test' \
-    && bundle install --jobs 20 --retry 5
-
-# คัดลอกโค้ดของแอปพลิเคชัน
+# Copy application code
 COPY . .
 
-# ตั้งค่า environment variables
-ENV RAILS_ENV=production
-ENV RAILS_SERVE_STATIC_FILES=true
-# เพิ่มบรรทัดนี้ แทนที่ YOUR_GENERATED_SECRET ด้วย key ที่คุณได้จาก `rails secret`
-ENV SECRET_KEY_BASE=YOUR_GENERATED_SECRET
+# Precompile bootsnap code for faster boot times
+RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompile assets
-RUN bundle exec rails assets:precompile
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
-# เคลียร์ cache และลบไฟล์ที่ไม่จำเป็น
-RUN rm -rf /usr/local/bundle/cache/*.gem \
-    && find /usr/local/bundle/gems/ -name "*.c" -delete \
-    && find /usr/local/bundle/gems/ -name "*.o" -delete
 
-# เปิด port 3000
+# Final stage for app image
+FROM base
+
+# Install packages needed for deployment
+RUN apk add --no-cache \
+    vips \
+    tzdata \
+    gcompat \
+    bash
+# Copy built artifacts: gems, application
+COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build /rails /rails
+
+# Run and own only the runtime files as a non-root user for security
+RUN adduser -h /rails -s /bin/sh -D rails && \
+    chown -R rails:rails db log storage tmp
+USER rails:rails
+# Entrypoint prepares the database.
+# ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+# Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-
-# คำสั่งที่จะรันเมื่อ container เริ่มทำงาน
-CMD ["./bin/rails", "db:prepare", "&&", "./bin/rails", "server", "-b", "0.0.0.0","bash"]
+# CMD ["./bin/rails", "server"]
+CMD ["./bin/rails", "db:prepare", "&&", "./bin/rails", "server", "-b", "0.0.0.0"]
