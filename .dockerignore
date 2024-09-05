@@ -46,3 +46,11 @@
 # Ignore Docker-related files
 /.dockerignore
 /Dockerfile*
+.git
+.gitignore
+README.md
+log/*
+tmp/*
+.dockerignore
+docker-compose.yml
+Dockerfile

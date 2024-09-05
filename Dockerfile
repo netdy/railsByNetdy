@@ -1,70 +1,44 @@
-# syntax = docker/dockerfile:1
+# ใช้ Ruby Alpine image เป็นฐาน
+FROM ruby:3.2-alpine
 
-# This Dockerfile is designed for production, not development.
-ARG RUBY_VERSION=3.3.1
-FROM ruby:$RUBY_VERSION-alpine AS base
-
-# Rails app lives here
-WORKDIR /rails
-
-# Install base packages and Node.js, Yarn
-RUN apk update && apk add --no-cache \
-    build-base \
-    curl \
-    jemalloc-dev \
-    vips-dev \
-    sqlite-dev \
-    bash \
-    nodejs \
-    yarn
-
-# Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
-
-# Throw-away build stage to reduce size of final image
-FROM base AS build
-
+# ติดตั้ง dependencies ที่จำเป็น
 RUN apk add --no-cache \
+    build-base \
+    postgresql-dev \
+    nodejs \
+    yarn \
+    tzdata \
     git \
-    pkgconfig
+    # เพิ่ม dependencies อื่นๆ ที่จำเป็นสำหรับโปรเจคของคุณ
+    && rm -rf /var/cache/apk/*
 
-# Install application gems
+# ตั้งค่า working directory
+WORKDIR /app
+
+# คัดลอก Gemfile และ Gemfile.lock
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
 
-# Copy application code
+# ติดตั้ง gems
+RUN bundle config set --local without 'development test' \
+    && bundle install --jobs 20 --retry 5
+
+# คัดลอกโค้ดของแอปพลิเคชัน
 COPY . .
 
-# Install JS dependencies
-RUN yarn install --check-files
+# Precompile assets
+RUN RAILS_ENV=production bundle exec rails assets:precompile
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# เคลียร์ cache และลบไฟล์ที่ไม่จำเป็น
+RUN rm -rf /usr/local/bundle/cache/*.gem \
+    && find /usr/local/bundle/gems/ -name "*.c" -delete \
+    && find /usr/local/bundle/gems/ -name "*.o" -delete
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
+# ตั้งค่า environment variables
+ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
 
-# Final stage for app image
-FROM base
-
-# Copy built artifacts: gems, application
-COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
-COPY --from=build /rails /rails
-
-# Run and own only the runtime files as a non-root user for security
-RUN addgroup -S rails && \
-    adduser -S rails -G rails && \
-    chown -R rails:rails db log storage tmp
-USER rails
-
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
-
-# Start the server by default, this can be overwritten at runtime
+# เปิด port 3000
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+
+# คำสั่งที่จะรันเมื่อ container เริ่มทำงาน
+CMD ["rails", "server", "-b", "0.0.0.0"]
