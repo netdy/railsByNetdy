@@ -1,7 +1,8 @@
 <body>
   <div class="form-container" style="max-width: 400px">
     <h1>Login</h1>
-    
+    <turbo-frame id="error-messages">
+    </turbo-frame>
     <%= form_with(url: login_path, method: :post, remote: true) do |form| %>
 
     
@@ -21,8 +22,7 @@
     <p style="color:#545454">If you don't have an account, <a href="/registration" style="color : red; "> register here. </a></p>
 
 <% end %>
-    <turbo-frame id="error-messages">
-    </turbo-frame>
+    
   </div>
   
 </body>

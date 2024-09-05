@@ -1,6 +1,14 @@
 <body>
     <div class="form-container">
+        <p style="color:#545454"><a href="/login" style="color : red; ">  &#60; Back  </a></p>
+
         <h1>Register Form</h1>
+            <% if flash[:success] %>
+            <div class="alert alert-success"><%= flash[:success] %></div>
+        <% end %>
+
+        <turbo-frame id="error-messages">
+        </turbo-frame>
         
         <%= form_with(model: @user_info, url: registration_path, method: :post, remote: true) do |form| %>
 
@@ -54,13 +62,7 @@
         </div>
         <p style="color:#545454">If you have an account, <a href="/login" style="color : red; "> login here. </a></p>
 
-    <% end %>
-    <% if flash[:success] %>
-        <div class="alert alert-success"><%= flash[:success] %></div>
-    <% end %>
-
-    <turbo-frame id="error-messages">
-    </turbo-frame>    
+    <% end %>    
     </div>
 </body>
 

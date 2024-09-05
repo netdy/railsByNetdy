@@ -108,14 +108,17 @@ input[type="submit"]:hover {
 }
 
 .alert-success {
-    align-self: center;
+    align-self: end;
     color: #155724;
+    padding-bottom: 5px;
+
 }
 
 .alert-danger {
     display: grid;
-    justify-content: center;
+    justify-content: end;
     color: #721c24;
+    padding-bottom: 5px;
 }
 
 

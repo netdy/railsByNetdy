@@ -26,7 +26,7 @@ class LoginController < ApplicationController
       else
         puts "--------------------------------------------------------------"
         puts "User not found"
-        render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: [ "User not found" ] })
+        render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: [ "invalid user or password" ] })
       end
     end
   end
