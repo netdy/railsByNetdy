@@ -1,4 +1,6 @@
 class SetpasswordController < ApplicationController
+  before_action :authenticate_user
+
   def index
   end
 
@@ -20,6 +22,17 @@ class SetpasswordController < ApplicationController
       # puts "--------------------------------------------------------------"
       # puts "Password updated"
       redirect_to controller: :page, action: :index
+    end
+  end
+
+  def authenticate_user
+    if session[:user_email].present?
+      # puts "--------------------------------------------------------------"
+      # puts "Session found: #{session[:user_email]}"
+    else
+      # puts "--------------------------------------------------------------"
+      # puts "Session not found"
+      redirect_to controller: :login, action: :index
     end
   end
 end
