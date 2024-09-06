@@ -1,7 +1,9 @@
 # Odds Birthday >_____< with ruby on rails 
-
+**go to my website http://netdy.oddsfarm.site/**
 
 **Project Description:**
+
+***
 
 Odds Birthday" is a Ruby on Rails web application for birthday tracking. Users can register, log in, and add birthdays to a shared calendar. The app features a simple interface with user authentication, birthday input, and a monthly calendar view. It aims to create an engaging way for communities to remember and celebrate birthdays together.
 
@@ -80,6 +82,42 @@ Odds Birthday" is a Ruby on Rails web application for birthday tracking. Users c
 ***
 
 # Installation
+
+To get started with this project, follow the steps below:
+
+1. Read and install rails in your computer https://guides.rubyonrails.org/getting_started.html
+
+2. Clone the repository:
+``git clone https://github.com/netdy/railsByNetdy.git``
+
+3. Navigate to the project directory:
+`` cd railsByNetdy``
+
+4. Install the required dependencies:
+``bundle install``
+
+5. Setup the database :
+``rails db:create`` and ``rails db:migrate``
+
+***
+
+# Usage
+
+To run the project locally, follow these steps:
+
+1. Start the Rails server:
+``rails server`` or ``rails s``
+
+2. Open your browser and go to:
+``http://localhost:3000``
+
+
+***
+
+# Enjoy My WEB :-)
+
+
+
 
 
 
