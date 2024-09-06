@@ -1,5 +1,8 @@
 # Odds Birthday >_____< with ruby on rails 
-**go to my website http://netdy.oddsfarm.site/**
+**go to my website<a href='http://netdy.oddsfarm.site/' target="_blank"> http://netdy.oddsfarm.site/</a>**
+
+***
+
 
 **Project Description:**
 
