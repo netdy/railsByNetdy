@@ -1,7 +1,7 @@
 <div id="calendar">
   <div class="calendar-header">
     <%= link_to "&lt;".html_safe, page_update_calendar_path(date: @current_date.prev_month), class: "turbo-stream-link", data: { turbo_stream: true } %>
-    <h2 id="month-year"><%= @current_date.strftime("%B %Y") %></h2>
+      <h2 id="month-year"><%= @current_date.strftime("%B") %> <%= @current_date.year + 543 %></h2>
     <%= link_to "&gt;".html_safe, page_update_calendar_path(date: @current_date.next_month), class: "turbo-stream-link", data: { turbo_stream: true } %>
   </div>
   <table>

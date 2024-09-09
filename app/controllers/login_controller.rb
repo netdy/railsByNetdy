@@ -6,7 +6,7 @@ class LoginController < ApplicationController
     email = params[:login][:Email]
     phone_number = params[:login][:PhoneNumber]
     password = params[:login][:PhoneNumber]
-    
+
     @user = UserInfo.find_by(Email: email, password: password)
     if @user
       session[:user_email] = @user.Email
@@ -18,10 +18,10 @@ class LoginController < ApplicationController
           session[:user_email] = @user_first.Email
           redirect_to controller: :setpassword, action: :index
         else
-          render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: ["Invalid user or password"] })
+          render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: [ "Invalid user or password" ] })
         end
       else
-        render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: ["Invalid user or password"] })
+        render turbo_stream: turbo_stream.update("error-messages", partial: "login/form_errors", locals: { errors: [ "Invalid user or password" ] })
       end
     end
   end
