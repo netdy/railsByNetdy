@@ -6,6 +6,8 @@ class RegistrationController < ApplicationController
   def create
     # puts "--------------------------------------------------------------"
     @user_info = UserInfo.new(user_info_params)
+    @user_info.DateOfBirth = Date.parse(params[:user_info][:DateOfBirth]) if params[:user_info][:DateOfBirth].present?
+
     if @user_info.save
       flash[:success] = "registration success"
       redirect_to action: :index
