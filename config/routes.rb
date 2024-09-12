@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   delete "login", to: "login#destroy"
   get "page/update_calendar"
 
-  get "/manifest.json", to: "pwa#manifest", format: :json
-  get "/service-worker.js", to: "pwa#service_worker", format: :js
+  get "/service-worker.js" => "service_worker#service_worker"
+  get "/manifest.json" => "service_worker#manifest"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
