@@ -1,3 +1,11 @@
+const CACHE_NAME = 'netdy-cache-v1';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icon.png',
+];
+
 self.addEventListener('install', (event) => {
     console.log('Service Worker installed');
   });
