@@ -22,14 +22,10 @@
             <%= form.text_field :LastName, name: 'user_info[LastName]', required: true, maxlength: 30, placeholder: "ex. pallypysix"%>
         </div>
 
-        <div class="form-group birthday-group">
-            <%= form.label :DateOfBirth, "Date of Birth" %>
-            <div class="birthday-inputs">
-                <%= form.select :birth_day, (1..31).map { |d| [d, d] }, { prompt: 'Date' }, { class: 'form-select' } %>
-                <%= form.select :birth_month, Date::MONTHNAMES.compact.each_with_index.map { |name, i| [name, i+1] }, { prompt: 'Month' }, { class: 'form-select' } %>
-                <%= form.select :birth_year, ((Date.today.year - 100 + 543)..(Date.today.year + 543)).to_a.reverse, { prompt: 'Year' }, { class: 'form-select' } %>
-            </div>
-            <%= form.hidden_field :DateOfBirth %>
+        <div class="form-group">
+            <%= form.label :DateOfBirth, "Birthday" %>
+            <%= form.date_field :DateOfBirth, name: 'user_info[DateOfBirth]', required: true, 
+                                max: Date.today, min: Date.today - 100.years %>
         </div>
 
         <div class="form-group gender">
@@ -69,27 +65,5 @@
     <% end %>    
     </div>
 </body>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const daySelect = document.querySelector('select[name="user_info[birth_day]"]');
-  const monthSelect = document.querySelector('select[name="user_info[birth_month]"]');
-  const yearSelect = document.querySelector('select[name="user_info[birth_year]"]');
-  const dateOfBirthInput = document.querySelector('input[name="user_info[DateOfBirth]"]');
-
-  function updateDateOfBirth() {
-    const day = daySelect.value.padStart(2, '0');
-    const month = monthSelect.value.padStart(2, '0');
-    const year = parseInt(yearSelect.value) - 543; // แปลง พ.ศ. เป็น ค.ศ.
-    if (day && month && year) {
-      dateOfBirthInput.value = `${year}-${month}-${day}`;
-    }
-  }
-
-  daySelect.addEventListener('change', updateDateOfBirth);
-  monthSelect.addEventListener('change', updateDateOfBirth);
-  yearSelect.addEventListener('change', updateDateOfBirth);
-});
-</script>
 
 
