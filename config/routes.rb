@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   delete "login", to: "login#destroy"
   get "page/update_calendar"
 
+  get "/manifest.json", to: "pwa#manifest", format: :json
+  get "/service-worker.js", to: "pwa#service_worker", format: :js
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
