@@ -26,7 +26,7 @@
             <%= form.label :DateOfBirth, "Birthday" %>
             <%= form.date_field :DateOfBirth, class: 'form-control', data: { controller: "date", date_target: "dateField"},
                                 name: 'user_info[DateOfBirth]', required: true, 
-                                min: Date.today + 443.years , max:Date.today+543.years %>
+                                min: Date.today - 100.years , max:Date.today%>
         </div>
 
         <div class="form-group gender">
