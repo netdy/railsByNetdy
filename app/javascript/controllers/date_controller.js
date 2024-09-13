@@ -10,7 +10,7 @@ export default class extends Controller {
   setDefaultDate() {
     if (!this.dateFieldTarget.value) {
       const currentYear = new Date().getFullYear();
-      const buddhistYear = currentYear;
+      const buddhistYear = currentYear + 543;
 
       const formattedDate = this.formatDate(buddhistYear);
       this.dateFieldTarget.value = formattedDate;
